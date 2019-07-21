@@ -1,0 +1,3 @@
+*.plist
+.venv
+.mypy_cache
