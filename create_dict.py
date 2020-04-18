@@ -110,6 +110,11 @@ def output_mac(namepairs):
     print(dom.toprettyxml())
 
 
+def output_csv(namepairs):
+    for shortcut, phrase in namepairs:
+        print(','.join([shortcut, phrase, '人名', '', '']))
+
+
 def output_win(namepairs):
     for shortcut, phrase in namepairs:
         print('\t'.join([shortcut, phrase, '人名']))
