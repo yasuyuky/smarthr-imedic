@@ -70,7 +70,7 @@ def get_names(emp_status):
 
 
 def create_pairs(names, keys, values):
-    if not keys: keys = ['last']
+    if not keys: keys = ['full']
     if not values: values = ['full']
     namepairs = []
     for name in names:
