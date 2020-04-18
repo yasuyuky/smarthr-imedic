@@ -42,7 +42,7 @@ def create_argapaser():
     parser.add_argument('-k', '--key', choices=nchoices, action='append')
     parser.add_argument('-v', '--value', choices=nchoices, action='append')
     eschoices = ['employed', 'absent', 'retired']
-    parser.add_argument('--emp-status', choices=eschoices, default=None)
+    parser.add_argument('--emp-status', choices=eschoices, default="employed")
     return parser
 
 
