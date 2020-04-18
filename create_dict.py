@@ -36,7 +36,7 @@ def kata2hira(s):
 
 def create_argapaser():
     parser = argparse.ArgumentParser()
-    imechoices = ['mac', 'win']
+    imechoices = ['mac', 'csv', 'win']
     parser.add_argument('ime', choices=imechoices)
     nchoices = ['full', 'last', 'first', 'email']
     parser.add_argument('-k', '--key', choices=nchoices, action='append')
@@ -127,5 +127,7 @@ if __name__ == "__main__":
     namepairs = create_pairs(allnames, args.key, args.value)
     if args.ime == 'mac':
         output_mac(namepairs)
+    elif args.ime == 'csv':
+        output_csv(namepairs)
     elif args.ime == 'win':
         output_win(namepairs)
