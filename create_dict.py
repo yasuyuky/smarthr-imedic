@@ -76,7 +76,8 @@ def create_pairs(names, keys, values):
     for name in names:
         pfx = 'business_' if all(name[k] for k in BNAME_FIELDS) else ''
         d = {}
-        d['email'] = (name['email'][:name['email'].index('@')], name['email'])
+        if name['email']:
+            d['email'] = (name['email'][:name['email'].index('@')], name['email'])
         for order in ['last', 'first']:
             k = pfx + order + '_name'
             d[order] = (kata2hira(name[k + '_yomi']), name[k])
