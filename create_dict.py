@@ -43,6 +43,7 @@ def create_argapaser():
     parser.add_argument('-v', '--value', choices=nchoices, action='append')
     eschoices = ['employed', 'absent', 'retired']
     parser.add_argument('--emp-status', choices=eschoices, default="employed")
+    parser.add_argument('--business_name', action='store_true', default=False)
     return parser
 
 
@@ -69,12 +70,12 @@ def get_names(emp_status):
     return allnames
 
 
-def create_pairs(names, keys, values):
+def create_pairs(names, keys, values, business_name):
     if not keys: keys = ['full']
     if not values: values = ['full']
     namepairs = []
     for name in names:
-        pfx = 'business_' if all(name[k] for k in BNAME_FIELDS) else ''
+        pfx = 'business_' if all(name[k] for k in BNAME_FIELDS) and business_name else ''
         d = {}
         if name['email']:
             d['email'] = (name['email'][:name['email'].index('@')], name['email'])
@@ -125,7 +126,7 @@ if __name__ == "__main__":
     parser = create_argapaser()
     args = parser.parse_args()
     allnames = get_names(args.emp_status)
-    namepairs = create_pairs(allnames, args.key, args.value)
+    namepairs = create_pairs(allnames, args.key, args.value, args.business_name)
     if args.ime == 'mac':
         output_mac(namepairs)
     elif args.ime == 'csv':
