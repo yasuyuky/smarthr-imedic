@@ -36,8 +36,8 @@ def kata2hira(s):
 
 def create_argapaser():
     parser = argparse.ArgumentParser()
-    imechoices = ['mac', 'csv', 'win']
-    parser.add_argument('ime', choices=imechoices)
+    ftchoices = ['plist', 'csv', 'tsv']
+    parser.add_argument('filetype', choices=ftchoices)
     nchoices = ['full', 'last', 'first', 'email']
     parser.add_argument('-k', '--key', choices=nchoices, action='append')
     parser.add_argument('-v', '--value', choices=nchoices, action='append')
@@ -96,7 +96,7 @@ def create_xml_child(dom, tag, text):
     return el
 
 
-def output_mac(namepairs):
+def output_plist(namepairs):
     dom = minidom.parseString(PLIST_TEMPLATE)
     array_el = dom.getElementsByTagName("array")[0]
     for shortcut, phrase in namepairs:
@@ -117,7 +117,7 @@ def output_csv(namepairs):
         print(','.join([shortcut, phrase, '人名', '', '', '']))
 
 
-def output_win(namepairs):
+def output_tsv(namepairs):
     for shortcut, phrase in namepairs:
         print('\t'.join([shortcut, phrase, '人名']))
 
@@ -127,9 +127,9 @@ if __name__ == "__main__":
     args = parser.parse_args()
     allnames = get_names(args.emp_status)
     namepairs = create_pairs(allnames, args.key, args.value, args.business_name)
-    if args.ime == 'mac':
-        output_mac(namepairs)
-    elif args.ime == 'csv':
+    if args.filetype == 'plist':
+        output_plist(namepairs)
+    elif args.filetype == 'csv':
         output_csv(namepairs)
-    elif args.ime == 'win':
-        output_win(namepairs)
+    elif args.filetype == 'tsv':
+        output_tsv(namepairs)
