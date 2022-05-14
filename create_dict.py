@@ -114,7 +114,7 @@ def output_mac(namepairs):
 
 def output_csv(namepairs):
     for shortcut, phrase in namepairs:
-        print(','.join([shortcut, phrase, '人名', '', '']))
+        print(','.join([shortcut, phrase, '人名', '', '', '']))
 
 
 def output_win(namepairs):
