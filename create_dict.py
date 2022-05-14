@@ -43,7 +43,7 @@ def create_argapaser():
     parser.add_argument('-v', '--value', choices=nchoices, action='append')
     eschoices = ['employed', 'absent', 'retired']
     parser.add_argument('--emp-status', choices=eschoices, default="employed")
-    parser.add_argument('--business_name', action='store_true', default=False)
+    parser.add_argument('--business-name', action='store_true', default=False)
     return parser
 
 
