@@ -43,6 +43,7 @@ def create_argapaser():
     parser.add_argument('-v', '--value', choices=nchoices, action='append')
     parser.add_argument('-c', '--comment', default=os.getenv('SMARTHR_TENANT'))
     eschoices = ['employed', 'absent', 'retired']
+    parser.add_argument('--sep', default=' ')
     parser.add_argument('--emp-status', choices=eschoices, default="employed")
     parser.add_argument('--business-name', action='store_true', default=False)
     return parser
@@ -71,7 +72,7 @@ def get_names(emp_status):
     return allnames
 
 
-def create_pairs(names, keys, values, business_name):
+def create_pairs(names, keys, values, business_name, sep):
     if not keys: keys = ['full']
     if not values: values = ['full']
     namepairs = []
@@ -84,7 +85,7 @@ def create_pairs(names, keys, values, business_name):
             k = pfx + order + '_name'
             d[order] = (kata2hira(name[k + '_yomi']), name[k])
         full_yomi = d['last'][0] + d['first'][0]
-        full = d['last'][1] + ' ' + d['first'][1]
+        full = d['last'][1] + sep + d['first'][1]
         d['full'] = (full_yomi, full)
         for k, v in product(keys, values):
             namepairs.append((d[k][0], d[v][1]))
@@ -127,7 +128,7 @@ if __name__ == "__main__":
     parser = create_argapaser()
     args = parser.parse_args()
     allnames = get_names(args.emp_status)
-    namepairs = create_pairs(allnames, args.key, args.value, args.business_name)
+    namepairs = create_pairs(allnames, args.key, args.value, args.business_name, args.sep)
     if args.filetype == 'plist':
         output_plist(namepairs)
     elif args.filetype == 'csv':
