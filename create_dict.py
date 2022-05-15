@@ -1,7 +1,6 @@
 import argparse
 import os
 import xml.dom.minidom as minidom
-from itertools import product
 
 import requests
 
@@ -39,9 +38,9 @@ def create_argapaser():
     ftchoices = ['plist', 'csv', 'tsv']
     parser.add_argument('filetype', choices=ftchoices)
     nchoices = ['full', 'last', 'first', 'email']
-    parser.add_argument('-k', '--key', choices=nchoices, action='append')
-    parser.add_argument('-v', '--value', choices=nchoices, action='append')
-    parser.add_argument('-c', '--comment', default=os.getenv('SMARTHR_TENANT'))
+    parser.add_argument('key', nargs='?', choices=nchoices, default='full')
+    parser.add_argument('value', nargs='?', choices=nchoices, default='full')
+    parser.add_argument('comment', nargs='?', default=os.getenv('SMARTHR_TENANT'))
     eschoices = ['employed', 'absent', 'retired']
     parser.add_argument('--sep', default=' ')
     parser.add_argument('--emp-status', choices=eschoices, default="employed")
@@ -72,9 +71,7 @@ def get_names(emp_status):
     return allnames
 
 
-def create_pairs(names, keys, values, business_name, sep):
-    if not keys: keys = ['full']
-    if not values: values = ['full']
+def create_pairs(names, key, value, business_name, sep):
     namepairs = []
     for name in names:
         pfx = 'business_' if all(name[k] for k in BNAME_FIELDS) and business_name else ''
@@ -87,8 +84,7 @@ def create_pairs(names, keys, values, business_name, sep):
         full_yomi = d['last'][0] + d['first'][0]
         full = d['last'][1] + sep + d['first'][1]
         d['full'] = (full_yomi, full)
-        for k, v in product(keys, values):
-            namepairs.append((d[k][0], d[v][1]))
+        namepairs.append((d[key][0], d[value][1]))
     return namepairs
 
 
