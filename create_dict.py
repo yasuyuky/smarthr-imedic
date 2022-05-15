@@ -41,6 +41,7 @@ def create_argapaser():
     nchoices = ['full', 'last', 'first', 'email']
     parser.add_argument('-k', '--key', choices=nchoices, action='append')
     parser.add_argument('-v', '--value', choices=nchoices, action='append')
+    parser.add_argument('-c', '--comment', default=os.getenv('SMARTHR_TENANT'))
     eschoices = ['employed', 'absent', 'retired']
     parser.add_argument('--emp-status', choices=eschoices, default="employed")
     parser.add_argument('--business-name', action='store_true', default=False)
@@ -112,14 +113,14 @@ def output_plist(namepairs):
     print(dom.toprettyxml())
 
 
-def output_csv(namepairs):
+def output_csv(namepairs, comment):
     for shortcut, phrase in namepairs:
-        print(','.join([shortcut, phrase, '人名', '', '', '']))
+        print(','.join([shortcut, phrase, '人名', '', '', comment]))
 
 
-def output_tsv(namepairs):
+def output_tsv(namepairs, comment):
     for shortcut, phrase in namepairs:
-        print('\t'.join([shortcut, phrase, '人名']))
+        print('\t'.join([shortcut, phrase, '人名', comment]))
 
 
 if __name__ == "__main__":
@@ -130,6 +131,6 @@ if __name__ == "__main__":
     if args.filetype == 'plist':
         output_plist(namepairs)
     elif args.filetype == 'csv':
-        output_csv(namepairs)
+        output_csv(namepairs, args.comment)
     elif args.filetype == 'tsv':
-        output_tsv(namepairs)
+        output_tsv(namepairs, args.comment)
