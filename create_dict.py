@@ -54,6 +54,9 @@ def get_pages(url, headers, params, page, per_page):
     params['page'] = page
     params['per_page'] = per_page
     r = requests.get(url, headers=headers, params=params)
+    if r.status_code >= 400:
+        print(r.json())
+        quit(2)
     if 'Link' in r.headers and 'next' in r.headers['Link']:
         return r.json() + get_pages(url, headers, params, page + 1, per_page)
     else:
