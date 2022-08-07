@@ -2,7 +2,8 @@ name: docker build
 
 on:
   push:
-    branches: main
+    branches:
+      - main
 
 env:
   REGISTRY: ghcr.io
@@ -31,4 +32,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
