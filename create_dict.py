@@ -90,6 +90,7 @@ def create_pairs(names, key, value, business_name, sep):
         full_yomi = d['last'][0] + d['first'][0]
         full = d['last'][1] + sep + d['first'][1]
         d['full'] = (full_yomi, full)
+        if not d[key][0]: continue
         namepairs.append((d[key][0], d[value][1]))
     return namepairs
 
