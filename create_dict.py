@@ -32,6 +32,7 @@ KATA_HIRA = dict(zip(KATA, HIRA))
 
 
 def kata2hira(s):
+    if not s: return ''
     return ''.join(KATA_HIRA.get(c, c) for c in s)
 
 
@@ -40,8 +41,16 @@ def create_argapaser():
     ftchoices = ['plist', 'csv', 'tsv']
     parser.add_argument('filetype', choices=ftchoices)
     nchoices = ['full', 'last', 'first', 'email']
-    parser.add_argument('key', nargs='?', choices=nchoices, default='full')
-    parser.add_argument('value', nargs='?', choices=nchoices, default='full')
+    parser.add_argument('key',
+                        nargs='?',
+                        choices=nchoices,
+                        default='full',
+                        help='name kana input type')
+    parser.add_argument('value',
+                        nargs='?',
+                        choices=nchoices,
+                        default='full',
+                        help='name kanji output type')
     parser.add_argument('comment', nargs='?', default=os.getenv('SMARTHR_TENANT'))
     eschoices = ['employed', 'absent', 'retired']
     parser.add_argument('--sep', default=' ')
@@ -89,6 +98,7 @@ def create_pairs(names, key, value, business_name, sep):
         full_yomi = d['last'][0] + d['first'][0]
         full = d['last'][1] + sep + d['first'][1]
         d['full'] = (full_yomi, full)
+        if not d[key][0]: continue
         namepairs.append((d[key][0], d[value][1]))
     return namepairs
 
