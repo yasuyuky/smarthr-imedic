@@ -32,6 +32,7 @@ KATA_HIRA = dict(zip(KATA, HIRA))
 
 
 def kata2hira(s):
+    if not s: return ''
     return ''.join(KATA_HIRA.get(c, c) for c in s)
 
 
