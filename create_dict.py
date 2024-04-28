@@ -41,8 +41,16 @@ def create_argapaser():
     ftchoices = ['plist', 'csv', 'tsv']
     parser.add_argument('filetype', choices=ftchoices)
     nchoices = ['full', 'last', 'first', 'email']
-    parser.add_argument('key', nargs='?', choices=nchoices, default='full')
-    parser.add_argument('value', nargs='?', choices=nchoices, default='full')
+    parser.add_argument('key',
+                        nargs='?',
+                        choices=nchoices,
+                        default='full',
+                        help='name kana input type')
+    parser.add_argument('value',
+                        nargs='?',
+                        choices=nchoices,
+                        default='full',
+                        help='name kanji output type')
     parser.add_argument('comment', nargs='?', default=os.getenv('SMARTHR_TENANT'))
     eschoices = ['employed', 'absent', 'retired']
     parser.add_argument('--sep', default=' ')
