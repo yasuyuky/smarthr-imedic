@@ -3,6 +3,7 @@
 import argparse
 import os
 import xml.dom.minidom as minidom
+from collections import OrderedDict
 
 import requests
 
@@ -86,7 +87,7 @@ def get_names(emp_status):
 
 
 def create_pairs(names, key, value, business_name, sep):
-    namepairs = []
+    namepairs = OrderedDict()
     for name in names:
         pfx = 'business_' if all(name[k] for k in BNAME_FIELDS) and business_name else ''
         d = {}
@@ -99,7 +100,8 @@ def create_pairs(names, key, value, business_name, sep):
         full = d['last'][1] + sep + d['first'][1]
         d['full'] = (full_yomi, full)
         if not d[key][0]: continue
-        namepairs.append((d[key][0], d[value][1]))
+        if (d[key][0], d[value][1]) not in namepairs:
+            namepairs[(d[key][0], d[value][1])] = True
     return namepairs
 
 
