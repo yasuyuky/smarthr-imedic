@@ -4,7 +4,7 @@ Create an IME dictionary using the [SmartHR API](https://developer.smarthr.jp).
 
 # Requirements
 
-- Python (3.8 or higher)
+- Python (3.9 or higher)
 - [uv](https://docs.astral.sh/uv/)
 
 ## Setup with uv
