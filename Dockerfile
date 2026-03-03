@@ -1,9 +1,11 @@
 FROM python:3.10
 
+WORKDIR /app
+
+RUN pip install --no-cache-dir uv
+COPY pyproject.toml pyproject.toml
+COPY README.md README.md
+RUN uv sync
+
 COPY create_dict.py create_dict.py
-COPY requirements.lock requirements.lock
-
-RUN grep '==' requirements.lock > requirements.txt
-RUN pip install -r requirements.txt
-
-ENTRYPOINT ["./create_dict.py"]
+ENTRYPOINT ["uv", "run", "./create_dict.py"]
