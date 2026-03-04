@@ -60,7 +60,7 @@ def create_argapaser() -> argparse.ArgumentParser:
     return parser
 
 
-def get_pages(url, headers, params, page, per_page):
+def get_pages(url: str, headers: dict[str, str], params: dict[str, Any], page: int, per_page: int) -> list[dict[str, Any]]:
     params['page'] = page
     params['per_page'] = per_page
     r = requests.get(url, headers=headers, params=params)
