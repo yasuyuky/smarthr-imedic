@@ -28,8 +28,8 @@ PLIST_TEMPLATE = '''<?xml version="1.0" encoding="UTF-8"?>
 </array>
 </plist>
 '''
-KATA = map(chr, range(ord('ァ'), ord('ヶ')))
-HIRA = map(chr, range(ord('ぁ'), ord('ゖ')))
+KATA = list(map(chr, range(ord('ァ'), ord('ヶ'))))
+HIRA = list(map(chr, range(ord('ぁ'), ord('ゖ'))))
 KATA_HIRA = dict(zip(KATA, HIRA))
 
 
