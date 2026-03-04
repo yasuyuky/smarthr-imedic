@@ -73,7 +73,7 @@ def get_pages(url: str, headers: dict[str, str], params: dict[str, Any], page: i
         return r.json()
 
 
-def get_names(emp_status):
+def get_names(emp_status: Optional[str]) -> list[dict[str, Any]]:
     tenant = os.getenv('SMARTHR_TENANT')
     endpoint = f'https://{tenant}.smarthr.jp/api/v1'
     url = f'{endpoint}/crews'
