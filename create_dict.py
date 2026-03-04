@@ -4,6 +4,7 @@ import argparse
 import os
 import xml.dom.minidom as minidom
 from collections import OrderedDict
+from typing import Any, Optional
 
 import requests
 
