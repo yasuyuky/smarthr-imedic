@@ -86,7 +86,13 @@ def get_names(emp_status: Optional[str]) -> list[dict[str, Any]]:
     return allnames
 
 
-def create_pairs(names, key, value, business_name, sep):
+def create_pairs(
+    names: list[dict[str, str]],
+    key: str,
+    value: str,
+    business_name: bool,
+    sep: str
+) -> OrderedDict[tuple[str, str], bool]:
     namepairs = OrderedDict()
     for name in names:
         pfx = 'business_' if all(name[k] for k in BNAME_FIELDS) and business_name else ''
