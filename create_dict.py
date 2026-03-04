@@ -117,7 +117,7 @@ def create_xml_child(dom: minidom.Document, tag: str, text: str) -> minidom.Elem
     return el
 
 
-def output_plist(namepairs):
+def output_plist(namepairs: OrderedDict[tuple[str, str], bool]) -> None:
     dom = minidom.parseString(PLIST_TEMPLATE)
     array_el = dom.getElementsByTagName("array")[0]
     for shortcut, phrase in namepairs:
