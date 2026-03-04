@@ -37,7 +37,7 @@ def kata2hira(s: str) -> str:
     return ''.join(KATA_HIRA.get(c, c) for c in s)
 
 
-def create_argapaser():
+def create_argapaser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
     ftchoices = ['plist', 'csv', 'tsv']
     parser.add_argument('filetype', choices=ftchoices)
