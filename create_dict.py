@@ -32,7 +32,7 @@ HIRA = map(chr, range(ord('ぁ'), ord('ゖ')))
 KATA_HIRA = dict(zip(KATA, HIRA))
 
 
-def kata2hira(s):
+def kata2hira(s: str) -> str:
     if not s: return ''
     return ''.join(KATA_HIRA.get(c, c) for c in s)
 
