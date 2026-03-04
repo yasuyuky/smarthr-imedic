@@ -133,7 +133,9 @@ def output_plist(namepairs: OrderedDict[tuple[str, str], bool]) -> None:
     print(dom.toprettyxml())
 
 
-def output_csv(namepairs, comment):
+def output_csv(namepairs: OrderedDict[tuple[str, str], bool], comment: Optional[str]) -> None:
+    if comment is None:
+        comment = ''
     for shortcut, phrase in namepairs:
         print(','.join([shortcut, phrase, '人名', '', '', comment]))
 
