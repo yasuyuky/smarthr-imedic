@@ -111,7 +111,7 @@ def create_pairs(
     return namepairs
 
 
-def create_xml_child(dom, tag, text):
+def create_xml_child(dom: minidom.Document, tag: str, text: str) -> minidom.Element:
     el = dom.createElement(tag)
     el.appendChild(dom.createTextNode(text))
     return el
