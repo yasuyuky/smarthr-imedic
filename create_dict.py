@@ -4,6 +4,7 @@ import argparse
 import os
 import xml.dom.minidom as minidom
 from collections import OrderedDict
+from typing import Any, Optional
 
 import requests
 
@@ -27,17 +28,17 @@ PLIST_TEMPLATE = '''<?xml version="1.0" encoding="UTF-8"?>
 </array>
 </plist>
 '''
-KATA = map(chr, range(ord('ァ'), ord('ヶ')))
-HIRA = map(chr, range(ord('ぁ'), ord('ゖ')))
+KATA = list(map(chr, range(ord('ァ'), ord('ヶ'))))
+HIRA = list(map(chr, range(ord('ぁ'), ord('ゖ'))))
 KATA_HIRA = dict(zip(KATA, HIRA))
 
 
-def kata2hira(s):
+def kata2hira(s: str) -> str:
     if not s: return ''
     return ''.join(KATA_HIRA.get(c, c) for c in s)
 
 
-def create_argapaser():
+def create_argapaser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
     ftchoices = ['plist', 'csv', 'tsv']
     parser.add_argument('filetype', choices=ftchoices)
@@ -60,7 +61,7 @@ def create_argapaser():
     return parser
 
 
-def get_pages(url, headers, params, page, per_page):
+def get_pages(url: str, headers: dict[str, str], params: dict[str, Any], page: int, per_page: int) -> list[dict[str, Any]]:
     params['page'] = page
     params['per_page'] = per_page
     r = requests.get(url, headers=headers, params=params)
@@ -73,7 +74,7 @@ def get_pages(url, headers, params, page, per_page):
         return r.json()
 
 
-def get_names(emp_status):
+def get_names(emp_status: Optional[str]) -> list[dict[str, Any]]:
     tenant = os.getenv('SMARTHR_TENANT')
     endpoint = f'https://{tenant}.smarthr.jp/api/v1'
     url = f'{endpoint}/crews'
@@ -86,7 +87,13 @@ def get_names(emp_status):
     return allnames
 
 
-def create_pairs(names, key, value, business_name, sep):
+def create_pairs(
+    names: list[dict[str, str]],
+    key: str,
+    value: str,
+    business_name: bool,
+    sep: str
+) -> OrderedDict[tuple[str, str], bool]:
     namepairs = OrderedDict()
     for name in names:
         pfx = 'business_' if all(name[k] for k in BNAME_FIELDS) and business_name else ''
@@ -105,13 +112,13 @@ def create_pairs(names, key, value, business_name, sep):
     return namepairs
 
 
-def create_xml_child(dom, tag, text):
+def create_xml_child(dom: minidom.Document, tag: str, text: str) -> minidom.Element:
     el = dom.createElement(tag)
     el.appendChild(dom.createTextNode(text))
     return el
 
 
-def output_plist(namepairs):
+def output_plist(namepairs: OrderedDict[tuple[str, str], bool]) -> None:
     dom = minidom.parseString(PLIST_TEMPLATE)
     array_el = dom.getElementsByTagName("array")[0]
     for shortcut, phrase in namepairs:
@@ -127,12 +134,16 @@ def output_plist(namepairs):
     print(dom.toprettyxml())
 
 
-def output_csv(namepairs, comment):
+def output_csv(namepairs: OrderedDict[tuple[str, str], bool], comment: Optional[str]) -> None:
+    if comment is None:
+        comment = ''
     for shortcut, phrase in namepairs:
         print(','.join([shortcut, phrase, '人名', '', '', comment]))
 
 
-def output_tsv(namepairs, comment):
+def output_tsv(namepairs: OrderedDict[tuple[str, str], bool], comment: Optional[str]) -> None:
+    if comment is None:
+        comment = ''
     for shortcut, phrase in namepairs:
         print('\t'.join([shortcut, phrase, '人名', comment]))
 
